@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/outerParentLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/innerParentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="6dip" >
+
+        <ImageView
+            android:id="@+id/peopleImageView"
+            android:layout_width="50dip"
+            android:layout_height="50dip"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="6dip"
+            android:layout_marginTop="6dip"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_missing_people_image_medium" />
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/peopleImageView"
+            android:singleLine="true"
+            android:layout_marginTop="6dp"
+            android:text="Kolhapur"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/nearByDistanceTextView"
+            android:layout_width="fill_parent"
+            android:layout_height="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_toRightOf="@id/peopleImageView"
+            android:layout_below="@id/titleTextView"
+            android:textColor="#FFFFFF"
+            android:text="123 miles"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
