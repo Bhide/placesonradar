@@ -89,21 +89,19 @@ public class AndroidGPSTrackingActivity extends Activity {
 								hashmap.put("location_long", Double.parseDouble(locationObject.getString("lng")));
 								hashmap.put("reference", placesJsonObject.getString("reference"));
 								hashmap.put("name", placesJsonObject.getString("name"));
-								hashmap.put("vicinity", placesJsonObject.getString("vicinity"));
+								hashmap.put("vicinity", placesJsonObject.getString("vicinity") == "" ? " " :placesJsonObject.getString("vicinity"));
 								hashmap.put("icon", placesJsonObject.getString("icon"));
-								
+								System.out.println("ADDING "+placesJsonObject.getString("name"));
 								placesNearList.add(hashmap);
-								
-								Intent arIntent = new Intent(AndroidGPSTrackingActivity.this, UIARView.class);
-								arIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-								arIntent.putExtra("currentLat", gps.getLatitude());
-								arIntent.putExtra("currentLong", gps.getLongitude());
-								arIntent.putExtra("placesNearList", placesNearList);
-								startActivity(arIntent);
-								placesNearList.clear();
-								placesNearList = null;
-								
 							}
+							Intent arIntent = new Intent(AndroidGPSTrackingActivity.this, UIARView.class);
+							arIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+							arIntent.putExtra("currentLat", gps.getLatitude());
+							arIntent.putExtra("currentLong", gps.getLongitude());
+							arIntent.putExtra("placesNearList", placesNearList);
+							startActivity(arIntent);
+							placesNearList.clear();
+							placesNearList = null;
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}

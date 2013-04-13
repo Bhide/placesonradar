@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.location.Location;
 import android.util.TypedValue;
+import android.widget.Toast;
 
 import com.raweng.arview.utils.PaintUtils;
 
@@ -36,6 +37,7 @@ public class RadarView{
 	private double currentLong;
 	public float circleOriginX;
 	public float circleOriginY;
+	private float mscale;
 	
 
 	public RadarView(DataView dataView, ArrayList<Double> arrLat, ArrayList<Double> arrLong, double largest, Context context, double currentLat, double currentLong){
@@ -45,24 +47,33 @@ public class RadarView{
 		this.largest = largest;
 		this.currentLat = currentLat;
 		this.currentLong = currentLong;
+		calculateMetrics();
+		Toast.makeText(context, "LARGEST ??"+largest, Toast.LENGTH_SHORT).show();
 	}
 
-	public RadarView() {
+	public void calculateMetrics(){
+		circleOriginX = originX + RADIUS;
+		circleOriginY = originY + RADIUS;
 		
+		float largestPoint = Float.parseFloat(Double.toString(this.largest * 1000));
+		range = (float)convertToPix(10) * convertToPix((int)(this.largest * 1000));
+		Toast.makeText(_context, "RANGE ??  "+range, Toast.LENGTH_SHORT).show();
+		mscale = range / convertToPix((int)RADIUS);
 	}
 
 	public void paint(PaintUtils dw, float yaw) {
 
-		circleOriginX = originX + RADIUS;
-		circleOriginY = originY + RADIUS;
+//		circleOriginX = originX + RADIUS;
+//		circleOriginY = originY + RADIUS;
 		this.yaw = yaw;
-		range = convertToPix(10) * 50;		/** Draw the radar */
+//		range = (float) convertToPix(largest*1000);		/** Draw the radar */
+//		Toast.makeText(_context, "RANGE ??"+largest, Toast.LENGTH_SHORT).show();
 		dw.setFill(true);
 		dw.setColor(radarColor);
 		dw.paintCircle(originX + RADIUS, originY + RADIUS, RADIUS);
 
 		/** put the markers in it */
-		float scale = range / convertToPix((int)RADIUS);
+//		float scale = range / convertToPix((int)RADIUS);
 		/**
 		 *  Your current location coordinate here.
 		 * */
@@ -74,8 +85,8 @@ public class RadarView{
 			destinedLocation.setLatitude(arrLat.get(i));
 			destinedLocation.setLongitude(arrLong.get(i));
 			convLocToVec(currentLocation, destinedLocation);
-			float x = this.x / scale;
-			float y = this.z / scale;
+			float x = this.x / mscale;
+			float y = this.z / mscale;
 
 			
 			if (x * x + y * y < RADIUS * RADIUS) {
