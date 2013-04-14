@@ -61,4 +61,35 @@ public class PlacesSearch {
 		}
 		
 	}
+	
+	public void getAddress(Location location, PlacesSearchListener placesListener){
+		this.placesSearchListener = placesListener;
+		RequestParams params = new RequestParams();
+		if (location != null) {
+			params.put("latlng", Double.toString(location.getLatitude())+","+Double.toString(location.getLongitude()));
+			params.put("sensor", "true");
+			
+			asyncHttpClient.get(AppConstants.REVERSE_GEOCODING_URL, params, new AsyncHttpResponseHandler(){
+				@Override
+				public void onSuccess(String arg0) {
+					super.onSuccess(arg0);
+					try {
+						JSONObject jsonObject = new JSONObject(arg0);
+						PlacesSearch.this.placesSearchListener.onSuccess(jsonObject);
+					} catch (JSONException e) {
+						e.printStackTrace();
+						PlacesSearch.this.placesSearchListener.onFailure(e.getMessage());
+					}
+				}
+				
+				@Override
+				public void onFailure(Throwable arg0, String arg1) {
+					super.onFailure(arg0, arg1);
+					PlacesSearch.this.placesSearchListener.onFailure(arg1);
+				}
+			});
+		}else{
+			this.placesSearchListener.onFailure("Cannot find current location");
+		}
+	}
 }
