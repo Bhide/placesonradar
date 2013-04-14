@@ -8,6 +8,7 @@ import android.location.Location;
 import android.util.TypedValue;
 import android.widget.Toast;
 
+import com.example.gpstracking.AppConstants;
 import com.raweng.arview.utils.PaintUtils;
 
 
@@ -56,7 +57,8 @@ public class RadarView{
 		circleOriginY = originY + RADIUS;
 		
 		float largestPoint = Float.parseFloat(Double.toString(this.largest * 1000));
-		range = (float)convertToPix(10) * convertToPix((int)(this.largest * 1000));
+		range = (float)convertToPix(10) * 50;
+//		range = (float)convertToPix(10) * convertToPix((int)(RADIUS));
 		Toast.makeText(_context, "RANGE ??  "+range, Toast.LENGTH_SHORT).show();
 		mscale = range / convertToPix((int)RADIUS);
 	}

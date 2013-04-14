@@ -80,6 +80,20 @@ public class UIARView extends Activity implements SensorEventListener{
 
 
 	@Override
+	public void onBackPressed() {
+		super.onBackPressed();
+		
+//		subjectNearList.clear();
+//		subjectNearList = null;
+//		
+//		dataView = null;
+		
+		setResult(RESULT_OK);
+		finish();
+		overridePendingTransition(R.anim.hold, R.anim.up_from_bottom_rev);
+	}
+	
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
@@ -163,14 +177,6 @@ public class UIARView extends Activity implements SensorEventListener{
 			}
 		});
 
-	}
-	
-	@Override
-	public void onBackPressed() {
-		super.onBackPressed();
-		setResult(RESULT_OK);
-		finish();
-		overridePendingTransition(R.anim.hold, R.anim.up_from_bottom_rev);
 	}
 
 	@Override

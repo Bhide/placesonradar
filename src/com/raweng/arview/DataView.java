@@ -26,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.gpstracking.R;
 import com.raweng.arview.utils.Camera;
@@ -59,7 +60,6 @@ public class DataView {
 	ArrayList<String> arrImageURL = new ArrayList<String>();
 	ArrayList<Double> arrDistances = new ArrayList<Double>();
 	public ArrayList<String> arrIDs = new ArrayList<String>();
-	public ArrayList<String> arrDisplayNameShownNowOnScreen = new ArrayList<String>();
 	private Activity activity = null;
 	double currentLat;
 	double currentLong;
@@ -111,6 +111,29 @@ public class DataView {
 
 	private DecimalFormat df;
 
+
+	public void clearAll(){
+		matchIDs.clear();
+		arrLat.clear();
+		arrLong.clear();
+		arrBearing.clear();
+		arrDisplayName.clear();
+		arrBitmap.clear();
+		arrImageURL.clear();
+		arrDistances.clear();
+		arrIDs.clear();
+		
+		matchIDs = null;
+		arrLat = null;
+		arrLong = null;
+		arrBearing = null;
+		arrDisplayName = null;
+		arrBitmap = null;
+		arrImageURL = null;
+		arrDistances = null;
+		arrIDs = null;
+	}
+
 	public DataView(Context ctx) {
 		this._context = ctx;
 		YPADDING = (int)converToPix(40);
@@ -123,7 +146,9 @@ public class DataView {
 
 	public void init(int widthInit, int heightInit, android.hardware.Camera camera, DisplayMetrics displayMetrics, 
 			ArrayList<HashMap<String, Object>> subjecthashmap, double currentLat, double currentLong, RelativeLayout rel) {
-		int subjecthashmapLength = subjecthashmap.size(); 
+		
+		int subjecthashmapLength = subjecthashmap.size();
+		Toast.makeText(_context, "Locations found: "+subjecthashmapLength, Toast.LENGTH_SHORT).show();
 		locationMarkerView = new RelativeLayout[subjecthashmapLength];
 		layoutParams = new RelativeLayout.LayoutParams[subjecthashmapLength];
 		subjectImageViewParams = new RelativeLayout.LayoutParams[subjecthashmapLength];
@@ -137,7 +162,7 @@ public class DataView {
 		int subjectTextViewHeight = 0;
 		subjectTextViewHeight = convertToPix(55);
 		for(int i = 0; i < subjecthashmap.size(); i++){
-			
+
 			double lat = (Double) subjecthashmap.get(i).get("location_lat");
 			double lon = (Double) subjecthashmap.get(i).get("location_long");
 			String subname = (String) subjecthashmap.get(i).get("name");
@@ -218,7 +243,7 @@ public class DataView {
 
 							dialog.show();
 						}else{
-//							openSubjectController(arrIDs.get(v.getId()));
+							//							openSubjectController(arrIDs.get(v.getId()));
 
 						}
 
@@ -389,12 +414,12 @@ public class DataView {
 
 	public void openSubjectController(String subjectID){
 
-//		Intent subjectIntent = new Intent(_context, UISubjectWallScreen.class);
-//		subjectIntent.putExtra("subjectId", subjectID);
-//		_context.startActivity(subjectIntent);
-//		activity = (Activity) _context;
-//		//		activity.finish();
-//		activity.overridePendingTransition(R.anim.hold, R.anim.up_from_bottom_rev);
+		//		Intent subjectIntent = new Intent(_context, UISubjectWallScreen.class);
+		//		subjectIntent.putExtra("subjectId", subjectID);
+		//		_context.startActivity(subjectIntent);
+		//		activity = (Activity) _context;
+		//		//		activity.finish();
+		//		activity.overridePendingTransition(R.anim.hold, R.anim.up_from_bottom_rev);
 	}
 
 	public void draw(PaintUtils dw, float yaw, float pitch, float roll) {
@@ -588,9 +613,10 @@ public class DataView {
 			return convertView;
 		}
 	}
-	
+
 	public float converToPix(int val) {
 		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, val, _context.getResources().getDisplayMetrics());
 		return px;
 	}
+
 }

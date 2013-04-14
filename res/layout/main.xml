@@ -2,31 +2,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:background="@drawable/layout_gradient" >
+
+    <include android:id="@+id/loadingContainer" layout="@layout/loading_container_view" />
+
+    <Spinner
+        android:id="@+id/spinner1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="59dp"
+        android:entries="@array/types" />
 
     <Button
         android:id="@+id/btnShowLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Show Location" />
+        android:layout_below="@id/spinner1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="50dp"
+        android:text="@string/current_location" />
 
     <Button
         android:id="@+id/placesSearchButton"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnShowLocation"
-        android:layout_centerHorizontal="true"
-        android:text="Search Places" />
-    
-    <Button
-        android:id="@+id/showOnARView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/placesSearchButton"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@id/spinner1"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="50dp"
-        android:text="Show on AR View" />
+        android:layout_toRightOf="@id/btnShowLocation"
+        android:text="@string/places_search" />
 
 </RelativeLayout>

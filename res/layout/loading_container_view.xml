@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/loadingContainer" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="#a8000000"
+	android:focusable="true" android:clickable="true">
+
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="40dip" android:background="@color/transparent"
+		android:layout_centerVertical="true">
+
+		<RelativeLayout android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_centerInParent="true">
+			<!-- <ProgressBar android:id="@+id/progressbar" android:layout_width="wrap_content" 
+				android:layout_height="wrap_content" style="?android:attr/progressBarStyleSmallInverse" 
+				android:layout_centerVertical="true" /> -->
+			<ImageView android:id="@+id/progressbarImageView"
+				android:layout_width="wrap_content" android:layout_height="wrap_content"
+				android:layout_centerVertical="true" android:src="@drawable/spinner_white_16"/>
+			<TextView android:id="@+id/loadingTextView"
+				android:layout_width="wrap_content" android:textStyle="bold"
+				android:textColor="@color/white" android:layout_height="wrap_content"
+				android:text="@string/please_wait" android:layout_centerVertical="true"
+				android:layout_marginLeft="5dip" android:layout_toRightOf="@id/progressbarImageView" />
+		</RelativeLayout>
+
+	</RelativeLayout>
+
+</RelativeLayout>

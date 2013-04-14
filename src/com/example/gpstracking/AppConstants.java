@@ -6,6 +6,6 @@ public class AppConstants {
 	
 	public static String NEARBY_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
 	
-	public static String RADIUS = "1500";
+	public static String RADIUS = "2000";
 	
 }
