@@ -22,6 +22,8 @@ import android.widget.Toast;
 
 public class GPSTracker extends Service implements LocationListener {
 
+	private static GPSTracker gpsTracker = null;
+	
 	private final Context mContext;
 
 	// flag for GPS status
@@ -46,9 +48,17 @@ public class GPSTracker extends Service implements LocationListener {
 	// Declaring a Location Manager
 	protected LocationManager locationManager;
 
+	public static GPSTracker getInstance(Context context){
+		if (gpsTracker == null) {
+			gpsTracker = new GPSTracker(context);
+		}
+		
+		return gpsTracker;
+	}
+	
 	public GPSTracker(Context context) {
 		this.mContext = context;
-		getLocation();
+//		getLocation();
 	}
 
 	public Location getLocation() {
@@ -117,6 +127,7 @@ public class GPSTracker extends Service implements LocationListener {
 	public void stopUsingGPS(){
 		if(locationManager != null){
 			locationManager.removeUpdates(GPSTracker.this);
+			locationManager = null;
 		}		
 	}
 	
@@ -150,6 +161,10 @@ public class GPSTracker extends Service implements LocationListener {
 	 * */
 	public boolean canGetLocation() {
 		return this.canGetLocation;
+	}
+	
+	public boolean locationManagerActive(){
+		return locationManager == null ? true : false;
 	}
 	
 	/**

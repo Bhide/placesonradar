@@ -77,7 +77,10 @@ public class UIARView extends Activity implements SensorEventListener{
 	public ArrayList<HashMap<String, Object>> subjectNearList = new ArrayList<HashMap<String,Object>>();
 	public double currentLat;
 	public double currentLong;
-
+	
+	static final float ALPHA = 0.25f;
+	protected float[] gravSensorVals;
+	protected float[] magSensorVals;
 
 	@Override
 	public void onBackPressed() {
@@ -221,34 +224,51 @@ public class UIARView extends Activity implements SensorEventListener{
 
 
 		if (evt.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+			gravSensorVals = lowPass(evt.values.clone(), gravSensorVals);
 			grav[0] = evt.values[0];
 			grav[1] = evt.values[1];
 			grav[2] = evt.values[2];
 
 		} else if (evt.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
+			magSensorVals = lowPass(evt.values.clone(), magSensorVals);
 			mag[0] = evt.values[0];
 			mag[1] = evt.values[1];
 			mag[2] = evt.values[2];
 
 		}
+		
+		if (gravSensorVals != null && magSensorVals != null) {
+			SensorManager.getRotationMatrix(RTmp, I, gravSensorVals, magSensorVals);
 
-		SensorManager.getRotationMatrix(RTmp, I, grav, mag);
+			int rotation = Compatibility.getRotation(this);
 
-		int rotation = Compatibility.getRotation(this);
+			if (rotation == 1) {
+				SensorManager.remapCoordinateSystem(RTmp, SensorManager.AXIS_X, SensorManager.AXIS_MINUS_Z, Rot);
+			} else {
+				SensorManager.remapCoordinateSystem(RTmp, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_Z, Rot);
+			}
 
-		if (rotation == 1) {
-			SensorManager.remapCoordinateSystem(RTmp, SensorManager.AXIS_X, SensorManager.AXIS_MINUS_Z, Rot);
-		} else {
-			SensorManager.remapCoordinateSystem(RTmp, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_Z, Rot);
+			SensorManager.getOrientation(Rot, results);
+
+			UIARView.azimuth = (float)(((results[0]*180)/Math.PI)+180);
+			UIARView.pitch = (float)(((results[1]*180/Math.PI))+90);
+			UIARView.roll = (float)(((results[2]*180/Math.PI)));
+
+			radarMarkerView.postInvalidate();
 		}
+//		gravSensorVals = lowPass(grav, gravSensorVals);
+//		magSensorVals = lowPass(mag, magSensorVals);
 
-		SensorManager.getOrientation(Rot, results);
-
-		UIARView.azimuth = (float)(((results[0]*180)/Math.PI)+180);
-		UIARView.pitch = (float)(((results[1]*180/Math.PI))+90);
-		UIARView.roll = (float)(((results[2]*180/Math.PI)));
-
-		radarMarkerView.postInvalidate();
+		
+	}
+	
+	protected float[] lowPass( float[] input, float[] output ) {
+	    if ( output == null ) return input;
+	     
+	    for ( int i=0; i<input.length; i++ ) {
+	        output[i] = output[i] + ALPHA * (input[i] - output[i]);
+	    }
+	    return output;
 	}
 	
 	public float converToPix(int val) {

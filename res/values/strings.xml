@@ -2,7 +2,7 @@
 <resources>
 
     <string name="hello">Hello World, AndroidGPSTrackingActivity!</string>
-    <string name="app_name">AndroidGPSTracking</string>
+    <string name="app_name">Places Search</string>
     <string name="current_location">Show Current Address</string>
     <string name="places_search">Search Places</string>
     <string name="please_wait">Please Wait...</string>

@@ -80,7 +80,8 @@ public class AndroidGPSTrackingActivity extends Activity {
 		rotation.setRepeatCount(Animation.INFINITE);
 		progressbarImageView.startAnimation(rotation);
 
-		gps = new GPSTracker(AndroidGPSTrackingActivity.this);
+		gps = GPSTracker.getInstance(_context);
+		gps.getLocation();
 
 		// show location button click event
 		btnShowLocation.setOnClickListener(new View.OnClickListener() {
@@ -212,9 +213,25 @@ public class AndroidGPSTrackingActivity extends Activity {
 	public void onBackPressed() {
 		super.onBackPressed();
 		gps.stopUsingGPS();
+		gps = null;
 		rotation.cancel();
 		rotation = null;
-		System.gc();
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+//		gps.stopUsingGPS();
+	}
+	
+	@Override
+	protected void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+		
+		if (!gps.locationManagerActive()) {
+			gps.getLocation();
+		}
 	}
 
 }

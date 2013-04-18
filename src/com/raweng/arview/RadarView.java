@@ -49,17 +49,13 @@ public class RadarView{
 		this.currentLat = currentLat;
 		this.currentLong = currentLong;
 		calculateMetrics();
-		Toast.makeText(context, "LARGEST ??"+largest, Toast.LENGTH_SHORT).show();
 	}
 
 	public void calculateMetrics(){
 		circleOriginX = originX + RADIUS;
 		circleOriginY = originY + RADIUS;
 		
-		float largestPoint = Float.parseFloat(Double.toString(this.largest * 1000));
 		range = (float)convertToPix(10) * 50;
-//		range = (float)convertToPix(10) * convertToPix((int)(RADIUS));
-		Toast.makeText(_context, "RANGE ??  "+range, Toast.LENGTH_SHORT).show();
 		mscale = range / convertToPix((int)RADIUS);
 	}
 
