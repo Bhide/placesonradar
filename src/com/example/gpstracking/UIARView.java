@@ -8,6 +8,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.FeatureInfo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -28,6 +29,7 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -86,11 +88,6 @@ public class UIARView extends Activity implements SensorEventListener{
 	public void onBackPressed() {
 		super.onBackPressed();
 		
-//		subjectNearList.clear();
-//		subjectNearList = null;
-//		
-//		dataView = null;
-		
 		setResult(RESULT_OK);
 		finish();
 		overridePendingTransition(R.anim.hold, R.anim.up_from_bottom_rev);
@@ -117,9 +114,12 @@ public class UIARView extends Activity implements SensorEventListener{
 		screenHeight = displayMetrics.heightPixels;
 		screenWidth = displayMetrics.widthPixels;
 
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
 		FrameLayout headerFrameLayout = new FrameLayout(this);
 		RelativeLayout headerRelativeLayout = new RelativeLayout(this);
-		headerFrameLayout.setBackgroundResource(R.drawable.bitmap_chat_header);
+		headerFrameLayout.setBackgroundColor(Color.TRANSPARENT);
+//		headerFrameLayout.setBackgroundResource(R.drawable.bitmap_chat_header);
 		RelativeLayout.LayoutParams relaLayoutParams  = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 		headerRelativeLayout.setLayoutParams(relaLayoutParams);
 		
@@ -136,33 +136,19 @@ public class UIARView extends Activity implements SensorEventListener{
 
 		Button cancelButton = new Button(this);
 		RelativeLayout.LayoutParams buttonparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT );
-		buttonparams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
+		buttonparams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, RelativeLayout.TRUE);
 		buttonparams.addRule(RelativeLayout.CENTER_VERTICAL,RelativeLayout.TRUE);
 		buttonparams.setMargins(10, 4, 0, 4);
 		cancelButton.setLayoutParams(buttonparams);
-		cancelButton.setText("  Cancel  ");
-		cancelButton.setTextSize(12);
-		cancelButton.setTypeface(null, Typeface.BOLD);
-		cancelButton.setTextColor(getResources().getColor(android.R.color.white));
-//		cancelButton.setBackgroundResource(R.drawable.selector_cancel_button);
-
-		TextView titleTextView = new TextView(this);
-		RelativeLayout.LayoutParams textparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		textparams.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE);
-		textparams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-		titleTextView.setLayoutParams(textparams);
-		titleTextView.setText("Augmented  Reality  View");
-		titleTextView.setTextColor(getResources().getColor(android.R.color.white));
-		titleTextView.setTypeface(null, Typeface.BOLD);
-		titleTextView.setTextSize(16);
+		cancelButton.setBackgroundColor(Color.TRANSPARENT);
+		cancelButton.setBackgroundResource(R.drawable.close);
 
 
 		headerRelativeLayout.addView(cancelButton);
-		headerRelativeLayout.addView(titleTextView);
 		headerFrameLayout.addView(headerRelativeLayout);
 		setContentView(cameraView);
 		addContentView(radarMarkerView,  new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-		addContentView(headerFrameLayout, new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, (int)converToPix(44),Gravity.TOP));
+		addContentView(headerFrameLayout, new FrameLayout.LayoutParams(LayoutParams.FILL_PARENT, (int)converToPix(50),Gravity.TOP));
 		addContentView(upperLayerLayout, upperLayerLayoutParams);
 		headerFrameLayout.bringToFront();
 		
@@ -225,16 +211,9 @@ public class UIARView extends Activity implements SensorEventListener{
 
 		if (evt.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
 			gravSensorVals = lowPass(evt.values.clone(), gravSensorVals);
-			grav[0] = evt.values[0];
-			grav[1] = evt.values[1];
-			grav[2] = evt.values[2];
 
 		} else if (evt.sensor.getType() == Sensor.TYPE_MAGNETIC_FIELD) {
 			magSensorVals = lowPass(evt.values.clone(), magSensorVals);
-			mag[0] = evt.values[0];
-			mag[1] = evt.values[1];
-			mag[2] = evt.values[2];
-
 		}
 		
 		if (gravSensorVals != null && magSensorVals != null) {
@@ -256,10 +235,6 @@ public class UIARView extends Activity implements SensorEventListener{
 
 			radarMarkerView.postInvalidate();
 		}
-//		gravSensorVals = lowPass(grav, gravSensorVals);
-//		magSensorVals = lowPass(mag, magSensorVals);
-
-		
 	}
 	
 	protected float[] lowPass( float[] input, float[] output ) {

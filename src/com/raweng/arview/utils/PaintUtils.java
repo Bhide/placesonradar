@@ -11,7 +11,7 @@ import com.raweng.arview.RadarView;
 public class PaintUtils {
 	
 	public static int XPADDING = 0;
-	public static int YPADDING = 75;
+	public static int YPADDING = 0;//75
 	
 	Canvas canvas;
 	int width, height;

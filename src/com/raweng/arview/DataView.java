@@ -232,7 +232,7 @@ public class DataView {
 
 						if (matchIDs.size() > 1) {
 							AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-							builder.setTitle("Subjects Near you");
+							builder.setTitle("Places Near you");
 
 							ListView modeList = new ListView(_context);
 							NearbyPlacesList nearbyPlacesList = new NearbyPlacesList(matchIDs, _context);
@@ -275,7 +275,7 @@ public class DataView {
 
 						if (matchIDs.size() > 1) {
 							AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-							builder.setTitle("Subjects Near you");
+							builder.setTitle("Places Near you");
 
 							ListView modeList = new ListView(_context);
 							NearbyPlacesList nearbyPlacesList = new NearbyPlacesList(matchIDs, _context);
@@ -317,7 +317,7 @@ public class DataView {
 
 						if (matchIDs.size() > 1) {
 							AlertDialog.Builder builder = new AlertDialog.Builder(_context);
-							builder.setTitle("Subjects Near you");
+							builder.setTitle("Places Near you");
 
 							ListView modeList = new ListView(_context);
 							NearbyPlacesList nearbyPlacesList = new NearbyPlacesList(matchIDs, _context);
