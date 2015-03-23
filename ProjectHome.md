@@ -1,0 +1,1 @@
+Using Augmented Reality View, view places such as restaurants, hospitals etc near you.
